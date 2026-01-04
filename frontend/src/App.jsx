@@ -16,7 +16,7 @@ function App() {
         <Route path='/' element={<UserLayout />} />
 
         {/* Admin Route */}
-        {/* <Route path='/admin' element={Home} /> */}
+        <Route path='/admin' element={Home} />
       </Routes>
     </BrowserRouter>
 
