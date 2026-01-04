@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { User, Handbag, Menu, X, ChevronDown } from "lucide-react";
 import { TopBar } from "../Layout/TopBar";
 import SearchBar from "./SearchBar";
+import CartDrawer from "./CartDrawer";
 
 /* ------------------ DATA ------------------ */
 
@@ -84,6 +85,14 @@ export default function Header() {
     const [activeCategory, setActiveCategory] = useState("Women's Fashion");
     const [mobileCategory, setMobileCategory] = useState(null);
 
+
+    // cart toggle
+    const [drawerOpen, setDrawerOpen] = useState(true);
+    const toggleCartDrawer = () => {
+        setDrawerOpen(!drawerOpen);
+    };
+
+
     return (
         <>
         <TopBar/>
@@ -121,7 +130,7 @@ export default function Header() {
                             <User className="w-6" />
                         </Link>
 
-                        <button className="relative">
+                        <button className="relative" onClick={toggleCartDrawer}>
                             <Handbag className="w-6" />
                             <span className="absolute -top-2 -right-2 bg-red-600 text-xs w-5 h-5 rounded-full flex items-center justify-center">
                                 3
@@ -220,6 +229,7 @@ export default function Header() {
                     </div>
                 )}
             </header>
+        <CartDrawer drawerOpen={drawerOpen} toggleCartDrawer={toggleCartDrawer} />
         </>
     );
 }
