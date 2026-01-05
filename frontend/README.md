@@ -1,1 +1,2 @@
-39 min working on search bar styling
+new Arrival
+2 :02:08

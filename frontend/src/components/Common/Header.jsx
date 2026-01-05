@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { User, Handbag, Menu, X, ChevronDown } from "lucide-react";
 import { TopBar } from "../Layout/TopBar";
 import SearchBar from "./SearchBar";
-import CartDrawer from "./CartDrawer";
+import CartDrawer from "../Layout/CartDrawer";
 
 /* ------------------ DATA ------------------ */
 
@@ -87,7 +87,7 @@ export default function Header() {
 
 
     // cart toggle
-    const [drawerOpen, setDrawerOpen] = useState(true);
+    const [drawerOpen, setDrawerOpen] = useState(false);
     const toggleCartDrawer = () => {
         setDrawerOpen(!drawerOpen);
     };

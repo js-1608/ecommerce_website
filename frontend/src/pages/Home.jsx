@@ -1,12 +1,14 @@
-import react from 'react';
+import react from "react";
+import Hero from "../components/Layout/Hero";
+import GenderCollection from "../components/Products/GenderCollection";
+import NewArrival from "../components/Products/NewArrival";
 
 export default function Home() {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <h1 className="text-4xl font-bold text-blue-600">
-                Welcome to the Home Page!
-            </h1>
-        </div>
+        <>
+            <Hero />
+            <GenderCollection/>
+            <NewArrival/>
+        </>
     );
-
 }
