@@ -13,10 +13,12 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* user Route */}
-        <Route path='/' element={<UserLayout />} />
+        <Route path='/' element={<UserLayout />}>
+            <Route index element={<Home/>}/>
+        </Route>
 
         {/* Admin Route */}
-        <Route path='/admin' element={Home} />
+        {/* <Route path='/admin' element={Home} /> */}
       </Routes>
     </BrowserRouter>
 
