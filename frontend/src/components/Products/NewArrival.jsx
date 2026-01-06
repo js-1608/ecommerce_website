@@ -3,13 +3,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const NewArrival = () => {
-  const scrollRef = useRef(null);
-  const [dragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [canScrollLeft, setCanScrollaLeft] = useState(false);
-
   const newArrivals = [
     {
       _id: "1",
@@ -187,54 +180,78 @@ const NewArrival = () => {
       numReviews: 26,
     },
   ];
+  
+  const scrollRef = useRef(null);
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollStart, setScrollStart] = useState(0);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
 
   const scroll = (direction) => {
-    const scrollAmount = direction === "left" ? -300 : +300;
-    scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    const amount = direction === "left" ? -300 : 300;
+    scrollRef.current.scrollBy({ left: amount, behavior: "smooth" });
   };
 
-  // update scroll button
   const updateScrollButton = () => {
-    const container = scrollRef.current;
+    const el = scrollRef.current;
+    if (!el) return;
 
-    if (container) {
-      const leftScroll = container.scrollLeft;
-      const rightScroll =
-        container.scrollWidth > leftScroll + container.clientWidth;
-
-      setCanScrollaLeft(leftScroll > 0);
-      setCanScrollRight(rightScroll);
-    }
-    console.log("scrolling");
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(
+      el.scrollLeft + el.clientWidth < el.scrollWidth
+    );
   };
 
   useEffect(() => {
-    const container = scrollRef.current;
-    if (!container) return;
+    const el = scrollRef.current;
+    if (!el) return;
 
-    container.addEventListener("scroll", updateScrollButton);
+    el.addEventListener("scroll", updateScrollButton);
     updateScrollButton();
 
-    return () => {
-      container.removeEventListener("scroll", updateScrollButton);
-    };
+    return () => el.removeEventListener("scroll", updateScrollButton);
   }, []);
+
+  // ---------------- DRAG SCROLL ----------------
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollStart(scrollRef.current.scrollLeft);
+  };
+
+  const handleMouseUp = () => setIsDragging(false);
+  const handleMouseLeave = () => setIsDragging(false);
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = x - startX;
+    scrollRef.current.scrollLeft = scrollStart - walk;
+  };
 
   return (
     <section className="py-12 bg-gray-50">
-      <div className="container mx-auto px-4 relative">
+      <div
+        className={`container mx-auto px-4 relative ${
+          isDragging ? "cursor-grabbing" : "cursor-grab"
+        }`}
+      >
         {/* Header */}
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold mb-2">Explore New Arrivals</h2>
           <p className="text-gray-600">Discover our latest product range</p>
         </div>
 
-        {/* Navigation Arrows */}
+        {/* Arrows */}
         <div className="absolute right-6 top-16 flex gap-2 z-10">
           <button
             disabled={!canScrollLeft}
             onClick={() => scroll("left")}
-            className={`p-2 rounded-full shadow transition ${
+            className={`p-2 rounded-full shadow ${
               canScrollLeft
                 ? "bg-white hover:bg-black hover:text-white"
                 : "bg-gray-200 text-gray-400 cursor-not-allowed"
@@ -246,7 +263,7 @@ const NewArrival = () => {
           <button
             disabled={!canScrollRight}
             onClick={() => scroll("right")}
-            className={`p-2 rounded-full shadow transition ${
+            className={`p-2 rounded-full shadow ${
               canScrollRight
                 ? "bg-white hover:bg-black hover:text-white"
                 : "bg-gray-200 text-gray-400 cursor-not-allowed"
@@ -256,28 +273,30 @@ const NewArrival = () => {
           </button>
         </div>
 
-        {/* Product Slider */}
+        {/* Slider */}
         <div
           ref={scrollRef}
-          className="flex gap-6 overflow-x-auto scroll-smooth pb-4"
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+          onMouseMove={handleMouseMove}
+          className="flex gap-6 overflow-x-auto pb-4 select-none"
         >
           {newArrivals.map((product) => (
             <div
               key={product._id}
-              className="min-w-[260px] sm:min-w-[300px] bg-white rounded-xl shadow hover:shadow-lg transition group"
+              className="min-w-[280px] bg-white rounded-xl shadow hover:shadow-lg transition"
             >
-              {/* Image */}
-              <div className="relative overflow-hidden rounded-t-xl">
-                <img
-                  src={product.images[0].url}
-                  alt={product.images[0].altText}
-                  className="w-full h-72 object-cover group-hover:scale-105 transition duration-300"
-                />
-                <div className="absolute bottom-0 left-0 backdrop-blur-md text-white p-3 bg-opacity-50 w-full">
-                  <Link to={`product/${product._id}`} className="block">
-                    {product.name}
-                  </Link>
-                </div>
+              <img
+                src={product.images[0].url}
+                alt={product.images[0].altText}
+                draggable="false"
+                className="w-full h-72 object-cover rounded-t-xl"
+              />
+              <div className="p-3">
+                <Link to={`product/${product._id}`} className="font-medium">
+                  {product.name}
+                </Link>
               </div>
             </div>
           ))}
