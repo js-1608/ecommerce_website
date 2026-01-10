@@ -1,0 +1,17 @@
+step 1
+to check git version
+git --version
+
+step 2
+configure git identity obe time
+git config --global user.name "Shivam Singh"
+git config --global user.email "2200520140049@ietlucknow.ac.in"
+check:-
+git config --global --list
+
+step 3
+Check existing SSH keys
+ls ~/.ssh
+
+eval "$(ssh-agent -s)"
+ssh-add --apple-use-keychain ~/.ssh/id_rsa
