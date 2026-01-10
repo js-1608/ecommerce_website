@@ -15,3 +15,17 @@ ls ~/.ssh
 
 eval "$(ssh-agent -s)"
 ssh-add --apple-use-keychain ~/.ssh/id_rsa
+
+
+#now how to push my changes on git on new brach
+
+#Create & Switch to New Branch
+git checkout -b feature/my-changes
+git switch -c feature/my-changes
+git branch
+
+git add .
+git status
+git commit -m "Add feature XYZ"
+git push -u origin feature/my-changes
+
