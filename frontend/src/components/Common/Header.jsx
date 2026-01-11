@@ -149,7 +149,7 @@ export default function Header() {
                                         key={cat}
                                         onMouseEnter={() => setActiveCategory(cat)}
                                         className={`px-5 py-3 cursor-pointer flex justify-between
-                    ${activeCategory === cat ? "bg-gray-100 font-semibold" : ""}`}
+                                        ${activeCategory === cat ? "bg-gray-100 font-semibold" : ""}`}
                                     >
                                         {cat}
                                         <span>›</span>
@@ -229,7 +229,7 @@ export default function Header() {
                     </div>
                 )}
             </header>
-        <CartDrawer drawerOpen={drawerOpen} toggleCartDrawer={toggleCartDrawer} />
+            <CartDrawer drawerOpen={drawerOpen} toggleCartDrawer={toggleCartDrawer} />
         </>
     );
 }
