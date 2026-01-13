@@ -1,10 +1,7 @@
-import React, {
-  useState,
-  useCallback,
-  useMemo,
-  memo,
-} from "react";
-
+import React, { useState, useCallback, useMemo, memo } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
+import ProductGrid from "./ProductGrid";
 /* -------------------- Product Data -------------------- */
 const selectProduct = {
   name: "Classic White T-Shirt",
@@ -23,6 +20,33 @@ const selectProduct = {
     { src: "https://picsum.photos/id/237/200/300", alt: "Detail View" },
   ],
 };
+
+const ProductDetailArray=[
+  {
+    _id:1,
+    name:"product 1",
+    price:100,
+    images:[{url:"https://picsum.photos/id/23/200/300"}]
+  },
+  {
+    _id:2,
+    name:"product 1",
+    price:100,
+    images:[{url:"https://picsum.photos/id/25/200/300"}]
+  },
+  {
+    _id:3,
+    name:"product 1",
+    price:100,
+    images:[{url:"https://picsum.photos/id/20/200/300"}]
+  },
+ {
+    _id:4,
+    name:"product 1",
+    price:100,
+    images:[{url:"https://picsum.photos/id/3/200/300"}]
+  }
+]
 
 /* -------------------- Memoized Components -------------------- */
 
@@ -65,9 +89,7 @@ const SizeSelector = memo(({ sizes, selectedSize, onSelect }) => (
       <button
         key={size}
         className={`w-8 h-8 rounded-lg border ${
-          selectedSize === size
-            ? "bg-gray-500 text-white"
-            : "border-gray-300"
+          selectedSize === size ? "bg-gray-500 text-white" : "border-gray-300"
         }`}
         onClick={() => onSelect(size)}
       >
@@ -79,17 +101,11 @@ const SizeSelector = memo(({ sizes, selectedSize, onSelect }) => (
 
 const QuantitySelector = memo(({ quantity, onIncrease, onDecrease }) => (
   <div className="flex space-x-4 mt-2 items-center text-xl">
-    <button
-      className="px-2 py-1 bg-gray-200 rounded"
-      onClick={onDecrease}
-    >
+    <button className="px-2 py-1 bg-gray-200 rounded" onClick={onDecrease}>
       -
     </button>
     <span>{quantity}</span>
-    <button
-      className="px-2 py-1 bg-gray-200 rounded"
-      onClick={onIncrease}
-    >
+    <button className="px-2 py-1 bg-gray-200 rounded" onClick={onIncrease}>
       +
     </button>
   </div>
@@ -100,8 +116,9 @@ const QuantitySelector = memo(({ quantity, onIncrease, onDecrease }) => (
 const ProductDetail = () => {
   const [mainImage, setMainImage] = useState(selectProduct.images[0].src);
   const [selectedColor, setSelectedColor] = useState(selectProduct.colors[0]);
-  const [selectedSize, setSelectedSize] = useState("S");
+  const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [buttonDisabled, setIsDisabled] = useState(true);
 
   /* -------------------- Memoized Handlers -------------------- */
   const handleImageSelect = useCallback((src) => {
@@ -130,11 +147,24 @@ const ProductDetail = () => {
     []
   );
 
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      toast.error("please select the size", {
+        duration: 1000,
+      });
+      return;
+    }
+
+    setTimeout(() => {
+      toast.success("item added succesfully");
+    }, 500);
+    setIsDisabled(false);
+  };
+
   /* -------------------- JSX -------------------- */
   return (
     <div className="max-w-6xl mx-auto bg-white p-8 rounded-lg">
       <div className="flex flex-col md:flex-row">
-
         {/* Desktop Thumbnails */}
         <div className="hidden md:flex flex-col space-y-4 mr-6">
           <ThumbnailList
@@ -164,13 +194,11 @@ const ProductDetail = () => {
 
         {/* Product Info */}
         <div className="md:ml-10">
-          <h1 className="text-3xl font-semibold mb-2">
-            {selectProduct.name}
-          </h1>
+          <h1 className="text-3xl font-semibold mb-2">{selectProduct.name}</h1>
 
           <p className="text-lg text-gray-500 mb-1">
-            <span className="line-through mr-2">{originalPrice}</span>
-            ${selectProduct.price}
+            <span className="line-through mr-2">{originalPrice}</span>$
+            {selectProduct.price}
           </p>
 
           <p className="mb-4">{selectProduct.description}</p>
@@ -199,9 +227,21 @@ const ProductDetail = () => {
             />
           </div>
 
-          <button className="bg-black text-white w-full py-2 rounded mb-4">
-            ADD TO CART
-          </button>
+          {buttonDisabled ? (
+            <button
+              onClick={handleAddToCart}
+              className={`bg-black text-white w-full py-2 rounded mb-4`}
+            >
+              ADD TO CART
+            </button>
+          ) : (
+            <Link
+              to="/cart"
+              className={`bg-blue-900  w-full inline-block text-center text-white py-2 rounded mb-4`}
+            >
+              Go To cart
+            </Link>
+          )}
 
           <div className="text-gray-600">
             <h3 className="text-xl font-bold mb-4">Characteristics</h3>
@@ -218,16 +258,25 @@ const ProductDetail = () => {
               </tbody>
             </table>
           </div>
-
         </div>
       </div>
+
+      {/* you may like section */}
+    <div className="mt-20">
+          <h2 className="  text-2xl text-center font-medium mb-4">
+            You May Also Like
+          </h2>
+          <ProductGrid product={ProductDetailArray}/>
+      </div>            
+
     </div>
   );
 };
 
 export default ProductDetail;
 
-{/*
+{
+  /*
   
   import React, { useState } from "react";
 
@@ -390,4 +439,5 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
-*/}
+*/
+}
