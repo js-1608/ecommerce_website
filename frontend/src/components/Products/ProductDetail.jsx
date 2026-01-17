@@ -21,33 +21,59 @@ const selectProduct = {
   ],
 };
 
-const ProductDetailArray=[
+const ProductDetailArray = [
   {
-    _id:1,
-    name:"product 1",
-    price:100,
-    images:[{url:"https://picsum.photos/id/23/200/300"}]
+    _id: 1,
+    name: "product 1",
+    price: 100,
+    images: [{ url: "https://picsum.photos/seed/picsum/200/300" }],
   },
   {
-    _id:2,
-    name:"product 1",
-    price:100,
-    images:[{url:"https://picsum.photos/id/25/200/300"}]
+    _id: 2,
+    name: "product 2",
+    price: 120,
+    images: [{ url: "https://picsum.photos/id/25/200/300" }],
   },
   {
-    _id:3,
-    name:"product 1",
-    price:100,
-    images:[{url:"https://picsum.photos/id/20/200/300"}]
+    _id: 3,
+    name: "product 3",
+    price: 150,
+    images: [{ url: "https://picsum.photos/id/20/200/300" }],
   },
- {
-    _id:4,
-    name:"product 1",
-    price:100,
-    images:[{url:"https://picsum.photos/id/3/200/300"}]
-  }
-]
+  {
+    _id: 4,
+    name: "product 4",
+    price: 200,
+    images: [{ url: "https://picsum.photos/id/3/200/300" }],
+  },
+];
 
+const SimilarProducts = [
+  {
+    _id: 1,
+    name: "product 1",
+    price: 100,
+    images: [{ url: "https://picsum.photos/id/29/200/300" }],
+  },
+  {
+    _id: 2,
+    name: "product 2",
+    price: 120,
+    images: [{ url: "https://picsum.photos/id/55/200/300" }],
+  },
+  {
+    _id: 3,
+    name: "product 3",
+    price: 150,
+    images: [{ url: "https://picsum.photos/id/34/200/300" }],
+  },
+  {
+    _id: 4,
+    name: "product 4",
+    price: 200,
+    images: [{ url: "https://picsum.photos/id/73/200/300" }],
+  },
+];
 /* -------------------- Memoized Components -------------------- */
 
 const ThumbnailList = memo(({ images, activeImage, onSelect }) => (
@@ -163,7 +189,7 @@ const ProductDetail = () => {
 
   /* -------------------- JSX -------------------- */
   return (
-    <div className="max-w-6xl mx-auto bg-white p-8 rounded-lg">
+    <div className=" mx-auto bg-white p-8 rounded-lg">
       <div className="flex flex-col md:flex-row">
         {/* Desktop Thumbnails */}
         <div className="hidden md:flex flex-col space-y-4 mr-6">
@@ -262,13 +288,18 @@ const ProductDetail = () => {
       </div>
 
       {/* you may like section */}
-    <div className="mt-20">
-          <h2 className="  text-2xl text-center font-medium mb-4">
-            You May Also Like
-          </h2>
-          <ProductGrid product={ProductDetailArray}/>
-      </div>            
-
+      <div className="mt-20">
+        <h2 className="  text-2xl text-center font-medium mb-4">
+          You May Also Like
+        </h2>
+        <ProductGrid products={ProductDetailArray} />
+      </div>
+      <div className="mt-20">
+        <h2 className="  text-2xl text-center font-medium mb-4">
+          Top Wear For Women
+        </h2>
+        <ProductGrid products={SimilarProducts} />
+      </div>
     </div>
   );
 };

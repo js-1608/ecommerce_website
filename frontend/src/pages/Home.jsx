@@ -3,6 +3,7 @@ import Hero from "../components/Layout/Hero";
 import GenderCollection from "../components/Products/GenderCollection";
 import NewArrival from "../components/Products/NewArrival";
 import ProductDetail from "../components/Products/ProductDetail";
+import FeatureCollection from "../components/Products/FeatureCollection";
 
 export default function Home() {
     return (
@@ -13,6 +14,7 @@ export default function Home() {
             {/* best seller */}
             <h2 className="text-center text-4xl font-bold mb-4">Best Seller</h2>
             <ProductDetail/>
+            <FeatureCollection/>
         </>
     );
 }
