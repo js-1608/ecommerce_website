@@ -5,10 +5,16 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    console.log(name);
+  }
+
   return (
     <div className="flex ml-auto justify-center items-center">
       <div className="w-full md:w-1/2 flex-col justify-center item-center p-8 md:p-12 border border-gray-200 m-12">
-        <form action="" method="post" className="gap-2 w-full flex flex-col">
+        <form onSubmit={handleSubmit} method="post" className="gap-2 w-full flex flex-col">
           <h2 className="text-2xl font-bold text-center mb-6">Hey There</h2>
 
           <div
