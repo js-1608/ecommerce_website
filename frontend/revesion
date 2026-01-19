@@ -1,0 +1,16 @@
+git config --global user.name “shivam”
+git config --global user.email “2200520140049@iet.lucknow.ac.in”
+
+#Git config
+git config -—global user.name “shivam”
+git config  --global user.email “2200520140049@iet.lucknow.ac.in”
+git config  -—list
+
+
+#clone & status
+clone :-  git clone <git link>
+status:-  git status
+
+#Add & commit
+git add <file name>
+git commit -m "some message"
