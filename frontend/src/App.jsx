@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import UserLayout from './components/Layout/UserLayout'
 import {Toaster} from "sonner"
+import Login from './pages/Login'
 function App() {
 
 
@@ -16,6 +17,7 @@ function App() {
         {/* user Route */}
         <Route path='/' element={<UserLayout />}>
             <Route index element={<Home/>}/>
+            <Route path='login' element={<Login/>}/>
         </Route>
 
         {/* Admin Route */}
