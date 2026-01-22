@@ -22,9 +22,9 @@ const menuData = {
     "Women's Fashion": [
         {
             title: "Shop All Ethnic Wear",
-            href: "/women/ethnic",
+            href: "/collection/all",
             items: [
-                { label: "Kurtis & Kurtas", href: "/women/kurtis-kurtas" },
+                { label: "Kurtis & Kurtas", href: "/collection/all" },
                 { label: "Sarees", href: "/women/sarees" },
                 { label: "Lehengas", href: "/women/lehengas" },
                 { label: "Bottoms", href: "/women/bottoms" },
