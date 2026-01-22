@@ -4,6 +4,7 @@ const Collections= () => {
   return (
     <div>
       collection page
+      <p>this is collection</p>
     </div>
   )
 }
