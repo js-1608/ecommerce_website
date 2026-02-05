@@ -14,3 +14,6 @@ status:-  git status
 #Add & commit
 git add <file name>
 git commit -m "some message"
+
+
+completed till 3:58

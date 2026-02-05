@@ -1,6 +1,9 @@
 import React, { useRef } from 'react'
 import { useEffect, useState } from 'react'
 import { FaFilter } from "react-icons/fa"
+import SortOption from '../components/Products/SortOption';
+import ProductGrid from '../components/Products/ProductGrid';
+import FilterSIdeBar from '../components/Products/FilterSIdeBar';
 
 
 const Collections = () => {
@@ -8,25 +11,25 @@ const Collections = () => {
 
   const [product, setProoduct] = useState([]);
   const sideBarRef = useRef(null);
-  const [isSideBarOpen, setIsSideBarOpen] = useState(true)
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false)
   const toggleSideBar = () => {
     setIsSideBarOpen(!isSideBarOpen);
   }
 
-const handleClickOutside = (e) => {
-  if (sideBarRef.current && !sideBarRef.current.contains(e.target)) {
-    setIsSideBarOpen(false);
-  }
-};
-
-
-useEffect(() => {
-  document.addEventListener("mousedown", handleClickOutside);
-
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
+  const handleClickOutside = (e) => {
+    if (sideBarRef.current && !sideBarRef.current.contains(e.target)) {
+      setIsSideBarOpen(false);
+    }
   };
-}, []);
+
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
 
   useEffect(() => {
@@ -65,7 +68,7 @@ useEffect(() => {
     <>
       <div className='flex flex-col items-end'>
         {/* mobile filter button */}
-       <button
+        <button
           onClick={toggleSideBar}
           className='lg:hidden w-20 border p-2 flex justify-center items-center'
         >
@@ -78,11 +81,20 @@ useEffect(() => {
 
       {/* filter side bar */}
       <div ref={sideBarRef} className={`max-w-1/3 h-full  bg-white ${isSideBarOpen ? "translate-x-0" : "-translate-x-full"} fixed inset-y-0 z-50 left-0 w-64 bg-white overflow-y-auto transition-transform duration-300`} >
-        {/* <FilterSidebar/> */}
-        sidebar
+        <FilterSIdeBar />
       </div>
+      <div className='flex items-center justify-between'>
+        <h2 className="text-2xl uppercase mb-4 w-2/5">
+          All Collection
+        </h2>
+        <SortOption />
+      </div>
+
+      <ProductGrid products={product} />
+
     </>
   )
+
 }
 
 export default Collections
